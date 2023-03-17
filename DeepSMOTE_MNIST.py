@@ -29,10 +29,7 @@ args['train'] = True       # train networks if True, else load networks from
 
 args['dataset'] = 'mnist'  #'fmnist' # specify which dataset to use
 
-
 ##############################################################################
-
-
 
 ## create encoder model and decoder model
 class Encoder(nn.Module):
@@ -71,7 +68,6 @@ class Encoder(nn.Module):
         # final layer is fully connected
         self.fc = nn.Linear(self.dim_h * (2 ** 3), self.n_z)
         
-
     def forward(self, x):
         #print('enc')
         #print('input ',x.size()) #torch.Size([100, 3,32,32])
@@ -133,7 +129,6 @@ def frozen_params(module: nn.Module):
 
 ##############################################################################
 """functions to create SMOTE images"""
-
 def biased_get_class(c):
     
     xbeg = dec_x[dec_y == c]
@@ -141,7 +136,6 @@ def biased_get_class(c):
     
     return xbeg, ybeg
     #return xclass, yclass
-
 
 def G_SM(X, y,n_to_sample,cl):
 
@@ -168,10 +162,7 @@ def G_SM(X, y,n_to_sample,cl):
     return samples, [cl]*n_to_sample
 
 #xsamp, ysamp = SM(xclass,yclass)
-
 ###############################################################################
-
-
 #NOTE: Download the training ('.../0_trn_img.txt') and label files 
 # ('.../0_trn_lab.txt').  Place the files in directories (e.g., ../MNIST/trn_img/
 # and /MNIST/trn_lab/).  Originally, when the code was written, it was for 5 fold
@@ -269,8 +260,7 @@ for i in range(len(ids)):
                 #print(x_hat)
                 mse = criterion(x_hat,images)
                 #print('mse ',mse)
-                
-                       
+                    
                 resx = []
                 resy = []
             
@@ -336,8 +326,6 @@ for i in range(len(ids)):
             print('Epoch: {} \tTrain Loss: {:.6f} \tmse loss: {:.6f} \tmse2 loss: {:.6f}'.format(epoch,
                     train_loss,tmse_loss,tdiscr_loss))
             
-        
-        
             #store the best encoder and decoder models
             #here, /crs5 is a reference to 5 way cross validation, but is not
             #necessary for illustration purposes
@@ -352,7 +340,6 @@ for i in range(len(ids)):
                 torch.save(decoder.state_dict(), path_dec)
         
                 best_loss = train_loss
-        
         
         #in addition, store the final model (may not be the best) for
         #informational purposes
@@ -371,4 +358,3 @@ for i in range(len(ids)):
  
 t4 = time.time()
 print('final time(min): {:.2f}'.format((t4 - t3)/60))
-
