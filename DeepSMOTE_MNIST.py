@@ -1,4 +1,3 @@
-
 import collections
 import torch
 import torch.nn as nn
@@ -12,7 +11,6 @@ print(torch.version.cuda) #10.1
 t3 = time.time()
 ##############################################################################
 """args for AE"""
-
 args = {}
 args['dim_h'] = 64         # factor controlling size of hidden layers
 args['n_channel'] = 1#3    # number of channels in the input data 
@@ -28,9 +26,7 @@ args['save'] = True        # save weights at each epoch of training if True
 args['train'] = True       # train networks if True, else load networks from
 
 args['dataset'] = 'mnist'  #'fmnist' # specify which dataset to use
-
 ##############################################################################
-
 ## create encoder model and decoder model
 class Encoder(nn.Module):
     def __init__(self, args):
@@ -53,7 +49,6 @@ class Encoder(nn.Module):
             nn.BatchNorm2d(self.dim_h * 4),
             #nn.ReLU(True),
             nn.LeakyReLU(0.2, inplace=True),
-            
             
             nn.Conv2d(self.dim_h * 4, self.dim_h * 8, 4, 2, 1, bias=False),
             
@@ -80,7 +75,6 @@ class Encoder(nn.Module):
         #print('out ',x.size()) #torch.Size([128, 20])
         #out  torch.Size([100, 300])
         return x
-
 
 class Decoder(nn.Module):
     def __init__(self, args):
@@ -114,7 +108,6 @@ class Decoder(nn.Module):
         x = x.view(-1, self.dim_h * 8, 7, 7)
         x = self.deconv(x)
         return x
-
 ##############################################################################
 """set models, loss functions"""
 # control which parameters are frozen / free for optimization
@@ -125,8 +118,6 @@ def free_params(module: nn.Module):
 def frozen_params(module: nn.Module):
     for p in module.parameters():
         p.requires_grad = False
-
-
 ##############################################################################
 """functions to create SMOTE images"""
 def biased_get_class(c):
@@ -318,7 +309,6 @@ for i in range(len(ids)):
                 tmse_loss += mse.item()*images.size(0)
                 tdiscr_loss += mse2.item()*images.size(0)
             
-                 
             # print avg training statistics 
             train_loss = train_loss/len(train_loader)
             tmse_loss = tmse_loss/len(train_loader)
